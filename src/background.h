@@ -1,6 +1,4 @@
 
-class background
-{
+class background {
 	char file_name[128];
 };
-

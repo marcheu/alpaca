@@ -5,14 +5,14 @@
 #include "src/problem.h"
 
 class generator {
-public:
-	void generate_problem(int problem_id);
-	void generate_all_problems();
-	void output_css();
-private:
+      public:
+	void generate_problem (int problem_id);
+	void generate_all_problems ();
+	void output_css ();
+      private:
 
 
-	database database_;
+	  database database_;
 };
 
 #endif

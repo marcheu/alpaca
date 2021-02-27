@@ -4,8 +4,7 @@
 #include "src/date.h"
 #include "src/hold.h"
 
-typedef enum problem_grade
-{
+typedef enum problem_grade {
 	VBm,
 	VB,
 	VBp,
@@ -30,26 +29,23 @@ typedef enum problem_grade
 	V14,
 	V15,
 	V16,
-	V17, // I can dream!
+	V17,			// I can dream!
 	VLAST
 } problem_grade;
 
-enum hold_type 
-{
+enum hold_type {
 	start,
 	stop,
 	hand,
 	foot
 };
 
-struct hold_use
-{
+struct hold_use {
 	int hold_id;
 	enum hold_type type;
 };
 
-struct problem
-{
+struct problem {
 	int id_;
 	char author_[128];
 	char name_[128];
