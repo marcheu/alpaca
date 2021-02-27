@@ -1,0 +1,131 @@
+<style>
+body
+{
+	background: #000000; 
+	font-family: 'Montserrat';
+}
+
+html *
+{
+	font-size: 2.7vw;
+	font-family: sans-serif;
+	
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+  color: black;
+}
+
+.small_problem_box {
+	background: #ffffff;
+	width: 98%;
+	height: 25%;
+	border-radius: 10px;
+	box-shadow: 0 0 10px gray;
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-top: 2%;
+	overflow: auto;
+}
+
+.small_problem_box.vb {
+	background: #a8fe7b;
+}
+
+.small_problem_box.v0 {
+	background: #ccfd7b;
+}
+
+.small_problem_box.v1 {
+	background: #f0fd7c;
+}
+
+.small_problem_box.v2 {
+	background: #fde77c;
+}
+
+.small_problem_box.v3 {
+	background: #fdc47d;
+}
+
+.small_problem_box.v4 {
+	background: #fda17d;
+}
+
+.small_problem_box.v5 {
+	background: #fd7f7e;
+}
+
+.small_problem_box.v6 {
+	background: #fd7ea0;
+}
+
+.small_problem_box.v7 {
+	background: #fd7fc2;
+}
+
+.small_problem_box.v8 {
+	background: #fd7fe5;
+}
+
+.small_problem_box.v9 {
+	background: #f280fd;
+}
+
+.small_problem_box.v10 {
+	background: #d180fd;
+}
+
+.small_problem_box_image {
+	float: left;
+	height: 100%;
+	width: 40%
+}
+
+.small_problem_box_text {
+	flex-grow: 1;
+	margin-top: 1%;
+	width: 100%
+}
+
+
+.title_box {
+	background-color: rgb(255, 255, 255, 0.3);
+	border-radius: 7px;
+	vertical-align: middle;
+	box-shadow: 3px 3px 10px gray;
+}
+
+.big_problem_box {
+	background: #ffffff;
+	width: 98%;
+	height: 100%;
+	border-radius: 10px;
+	box-shadow: 0 0 10px gray;
+	margin-top: 2%;
+	overflow: auto;
+}
+
+.big_problem_box_image {
+	float: top;
+	height: 80%;
+	width: 100%;
+}
+
+.big_problem_box_text {
+	float: bottom;
+	width: auto;
+	height: auto;
+}
+
+</style>
