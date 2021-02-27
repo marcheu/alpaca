@@ -22,6 +22,6 @@ clean:
 	@echo Done.
 
 classe:
-	@indent -lc0 -sc -ss -ts8 -d0 -br -brs -lp -i8 -bli0 -npsl -l1000 *.cc *cu *.h
+	@indent -lc0 -sc -ss -ts8 -d0 -br -brs -lp -i8 -bli0 -npsl -l1000 src/*.cc src/*.h
 	@echo Classe.
 
