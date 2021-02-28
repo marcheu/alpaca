@@ -50,7 +50,7 @@ struct problem {
 	char author_[128];
 	char name_[128];
 	problem_grade grade_;
-	hold_use holds_[128];
+	hold_use holds_[256];
 	date date_;
 };
 

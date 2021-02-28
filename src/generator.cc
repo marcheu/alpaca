@@ -42,39 +42,30 @@ void generator::generate_problem (int problem_id)
 	cout << "PROBLEM " << problem_id;
 	database_.get_problem (problem_id, p);
 
+	list < hold > h_list;
+	database_.get_all_holds(h_list);
+
 	cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << p.id_ << "\">";
 	cout << "<div class=\"big_problem_box\">";
-	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\"></div>";
+	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\">";
+
+	int i = 0;
+	while(p.holds_[i].hold_id) {
+		cout << "<div class=\"hold_" << p.holds_[i].hold_id << "\"> </div>";
+		i++;
+	}
+
+	cout << "</div>";
 	cout << "<br>";
 	cout << "<div class=\"big_problem_box_text\">";
-	switch (p.grade_) {
-	case VB:
-		cout << "<div class=\"grade_vb_box\">";
-		break;
-	case V0:
-		cout << "<div class=\"grade_v0_box\">";
-		break;
-	case V0p ... V2:
-		cout << "<div class=\"grade_v1_box\">";
-		break;
-	case V3 ... V4:
-		cout << "<div class=\"grade_v3_box\">";
-		break;
-	case V5 ... V6:
-		cout << "<div class=\"grade_v5_box\">";
-		break;
-	case V7 ... V16:
-	default:
-		cout << "<div class=\"grade_v7_box\">";
-		break;
-	}
-	cout << "<b>" << grade_name (p.grade_) << "</b></div> ";
-	cout << "<b>" << p.name_ << "</b>" << endl;
+	cout << "<b>" << p.name_ << "</b><br>" << endl;
+	cout << "<b>" << grade_name (p.grade_) << "</b><br>";
 	cout << "<br>author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
 	cout << "</a>";
+
 }
 
 void generator::generate_all_problems ()
@@ -105,6 +96,26 @@ void generator::output_css ()
 	string output;
 	ifstream style_file ("/home/pi/alpaca/html/style.txt");
 
+	cout << "<style>";
 	if (style_file.is_open ())
 		cout << style_file.rdbuf ();
+
+
+	list < hold > h_list;
+	database_.get_all_holds(h_list);
+
+	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
+		cout << ".hold_" << (*it).id << " {\n";
+		cout << "	position: absolute;\n";
+		cout << "	border: 3px solid red;\n";
+		cout << "	border-radius: 50%;\n";
+		cout << "	top: " << (*it).ypos << ";\n";
+		cout << "	left: " << (*it).xpos << ";\n";
+		cout << "	width: " << (*it).radius * 2.f << ";\n";
+		cout << "	height: " << (*it).radius * 2.f << ";\n";
+		cout << "}\n";
+	}
+
+	cout << "</style>";
+
 }

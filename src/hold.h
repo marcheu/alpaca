@@ -1,7 +1,7 @@
 #ifndef _HOLD_H_
 #define _HOLD_H_
 
-class hold {
+struct hold {
 	int id;
 	float xpos;
 	float ypos;
