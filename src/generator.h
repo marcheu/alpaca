@@ -11,8 +11,8 @@ class generator {
 	void output_css ();
       private:
 
-
-	  database database_;
+	void generate_header ();
+	database database_;
 };
 
 #endif

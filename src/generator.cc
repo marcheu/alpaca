@@ -36,44 +36,46 @@ static const char *grade_div_name (problem_grade g)
 	return grades[g];
 }
 
+void generator::generate_header ()
+{
+	cout << "<div class=\"page_header\"><b> Alpaca </b></div>" << endl;
+}
+
 void generator::generate_problem (int problem_id)
 {
+	generate_header ();
+
 	problem p;
-	cout << "PROBLEM " << problem_id;
 	database_.get_problem (problem_id, p);
 
-	list < hold > h_list;
-	database_.get_all_holds(h_list);
-
 	cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << p.id_ << "\">";
-	cout << "<div class=\"big_problem_box\">";
-	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\">";
+	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
+	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
 
 	int i = 0;
-	while(p.holds_[i].hold_id) {
+	while (p.holds_[i].hold_id) {
 		cout << "<div class=\"hold_" << p.holds_[i].hold_id << "\"> </div>";
 		i++;
 	}
 
 	cout << "</div>";
 	cout << "<br>";
+	cout << "<div class=\"title_box\"><b>" << p.name_ << "</b></div>" << endl;
 	cout << "<div class=\"big_problem_box_text\">";
-	cout << "<b>" << p.name_ << "</b><br>" << endl;
 	cout << "<b>" << grade_name (p.grade_) << "</b><br>";
 	cout << "<br>author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
 	cout << "</a>";
-
 }
 
 void generator::generate_all_problems ()
 {
-	cout << "ALL PROBLEMS ";
-	int num;
+	generate_header ();
+
 	list < problem > p_list;
-	database_.get_all_problems (num, p_list);
+	database_.get_all_problems (p_list);
 
 	for (auto it = p_list.begin (); it != p_list.end (); ++it) {
 		cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << (*it).id_ << "\">";
@@ -102,17 +104,18 @@ void generator::output_css ()
 
 
 	list < hold > h_list;
-	database_.get_all_holds(h_list);
+	database_.get_all_holds (h_list);
 
 	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
 		cout << ".hold_" << (*it).id << " {\n";
 		cout << "	position: absolute;\n";
+//              cout << "       background-color: rgb(255, 255, 255, 0.3);\n";
 		cout << "	border: 3px solid red;\n";
 		cout << "	border-radius: 50%;\n";
-		cout << "	top: " << (*it).ypos << ";\n";
-		cout << "	left: " << (*it).xpos << ";\n";
-		cout << "	width: " << (*it).radius * 2.f << ";\n";
-		cout << "	height: " << (*it).radius * 2.f << ";\n";
+		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
+		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";
+		cout << "	width: " << (*it).radius / 2.7f << "%;\n";
+		cout << "	height: " << (*it).radius / 3.3f << "%;\n";
 		cout << "}\n";
 	}
 

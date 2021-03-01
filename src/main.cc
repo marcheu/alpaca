@@ -57,11 +57,10 @@ int main (int argc, char *argv[])
 			cout << "Sort: " << **fi << endl;
 		}
 		else {
-			cout << "No text entered for sort" << endl;
+			//cout << "No text entered for sort" << endl;
 		}
 	}
 
-	cout << "<br/>\n";
 	cout << "</body>\n";
 	cout << "</html>\n";
 
