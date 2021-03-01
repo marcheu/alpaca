@@ -38,7 +38,7 @@ static const char *grade_div_name (problem_grade g)
 
 void generator::generate_header ()
 {
-	cout << "<div class=\"page_header\"><b> Alpaca </b></div>" << endl;
+	cout << "<div class=\"page_header\"><b> Alpaca </b><img src=\"/icon-edit.png\" width=10\%>  <img src=\"/icon-list.png\" width=10\%>  <img src=\"/icon-stats.png\" width=10\%>  <img src=\"/icon-light.png\" width=10\%></div>" << endl;
 }
 
 void generator::generate_problem (int problem_id)
@@ -81,7 +81,15 @@ void generator::generate_all_problems ()
 		cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << (*it).id_ << "\">";
 		cout << "<div class=\"small_problem_box " << grade_div_name ((*it).grade_);
 		cout << "\">";
-		cout << "<div class=\"small_problem_box_image\"><img src=\"/template.jpg\"></div>";
+		cout << "<div class=\"small_problem_box_image\"><img src=\"/template.jpg\">";
+
+		int i = 0;
+		while ((*it).holds_[i].hold_id) {
+			cout << "<div class=\"hold_" << (*it).holds_[i].hold_id << "\"> </div>";
+			i++;
+		}
+
+		cout << "</div>";
 		cout << "<div class=\"title_box\"><b>" << (*it).name_ << "</b></div>" << endl;
 		cout << "<div class=\"small_problem_box_text\">";
 		cout << "<b>" << grade_name ((*it).grade_) << "</b> ";
@@ -110,7 +118,7 @@ void generator::output_css ()
 		cout << ".hold_" << (*it).id << " {\n";
 		cout << "	position: absolute;\n";
 //              cout << "       background-color: rgb(255, 255, 255, 0.3);\n";
-		cout << "	border: 3px solid red;\n";
+		cout << "	border: 2px solid red;\n";
 		cout << "	border-radius: 50%;\n";
 		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
 		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";

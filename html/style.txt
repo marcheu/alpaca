@@ -100,10 +100,12 @@ a:visited {
 }
 
 .small_problem_box_image {
+	position:relative;
+	overflow: hidden;
+	display: inline-block;
 	float: left;
 	height: 100%;
-	width: 40%;
-	position:relative;
+	width: auto;
 }
 
 .small_problem_box_image_hold {
