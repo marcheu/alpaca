@@ -24,30 +24,32 @@ int main (int argc, char *argv[])
 	cout << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 	cout << "<html>\n";
 
-
-	cout << "<head>\n";
-	cout << "<title>Alpaca Climbing 🦙</title>\n";
-	g.output_css ();
-	cout << "</head>\n";
-	cout << "<body>\n";
-
-
 	if (argc > 1) {
 		// for testing
 		printf ("TEST MODE\n");
-		g.generate_all_problems ();
+		g.add_problem ();
 	}
 	else {
 		// real thing
-		form_iterator fi = formData.getElement ("problem_id");
+		form_iterator fi;
+		fi = formData.getElement ("problem_id");
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("all")) {
+				g.output_head();
 				g.generate_all_problems ();
+			} else if (!std::string (**fi).compare ("new")) {
+				g.add_problem ();
 			}
 			else {
-				int id = atoi (std::string (**fi).c_str ());
-				if (id)
-					g.generate_problem (id);
+				g.output_head();
+				int problem_id = atoi (std::string (**fi).c_str ());
+				form_iterator fi = formData.getElement ("edit");
+				if (!fi->isEmpty ()) {
+					g.edit_problem(problem_id, std::string (**fi));
+					cout << "DID AN EDIT " << std::string (**fi) << endl;
+				}
+				if (problem_id)
+					g.generate_problem (problem_id);
 			}
 		}
 

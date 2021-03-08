@@ -17,6 +17,8 @@ class database {
 	bool get_problem (int problem_id, problem & p);
 	bool get_all_problems (list < problem > &p_list);
 	bool get_all_holds (list < hold > &h_list);
+	bool edit_problem (int problem_id, int hold_id, hold_type type);
+	bool add_problem (int &id);
 
       private:
 	  std::list < background > backgrounds_;
@@ -26,6 +28,7 @@ class database {
 	bool load_problem (const char *name, problem & p);
 	bool load_holds ();
 	bool load_problems ();
+	bool save_problem (const char *name, problem & p);
 
 };
 

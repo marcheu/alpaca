@@ -34,24 +34,20 @@ typedef enum problem_grade {
 } problem_grade;
 
 enum hold_type {
-	start,
-	stop,
-	hand,
-	foot
-};
-
-struct hold_use {
-	int hold_id;
-	enum hold_type type;
+	hold_unused,
+	hold_start,
+	hold_end,
+	hold_hand,
+	hold_foot
 };
 
 struct problem {
 	int id_;
-	char author_[128];
 	char name_[128];
+	char author_[128];
 	problem_grade grade_;
-	hold_use holds_[256];
 	date date_;
+	hold_type holds_[256];
 };
 
 #endif

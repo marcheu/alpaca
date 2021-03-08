@@ -9,11 +9,15 @@
 #include <string.h>
 #include <stdint.h>
 #include <time.h>
+#include <fstream>
+#include <iostream>
 #include <vector>
 
 #include <dirent.h>
 #include <pthread.h>
 #include <sys/time.h>
 #include <values.h>
+
+#define ARRAY_SIZE(AA) (sizeof(AA)/sizeof(AA[0]))
 
 #endif

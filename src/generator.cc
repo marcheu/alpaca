@@ -1,6 +1,3 @@
-#include <fstream>
-#include <iostream>
-
 #include "src/generator.h"
 #include "src/includes.h"
 
@@ -36,9 +33,14 @@ static const char *grade_div_name (problem_grade g)
 	return grades[g];
 }
 
+generator::generator()
+{
+	cout.precision(3);
+}
+
 void generator::generate_header ()
 {
-	cout << "<div class=\"page_header\"><b> Alpaca </b><img src=\"/icon-edit.png\" width=10\%>  <img src=\"/icon-list.png\" width=10\%>  <img src=\"/icon-stats.png\" width=10\%>  <img src=\"/icon-light.png\" width=10\%></div>" << endl;
+	cout << "<div class=\"page_header\"><b> Alpaca </b><a href=\"/cgi-bin/mycgi?problem_id=new\"><img src=\"/icon-edit.png\" width=10\%></a>  <a href=\"/cgi-bin/mycgi?problem_id=all\"><img src=\"/icon-list.png\" width=10\%></a>  <img src=\"/icon-stats.png\" width=10\%>  <img src=\"/icon-light.png\" width=10\%></div>" << endl;
 }
 
 void generator::generate_problem (int problem_id)
@@ -48,14 +50,25 @@ void generator::generate_problem (int problem_id)
 	problem p;
 	database_.get_problem (problem_id, p);
 
-	cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << p.id_ << "\">";
+	list < hold > h_list;
+	database_.get_all_holds (h_list);
+
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
 
-	int i = 0;
-	while (p.holds_[i].hold_id) {
-		cout << "<div class=\"hold_" << p.holds_[i].hold_id << "\"> </div>";
-		i++;
+	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
+		int id = (*it).id;
+
+		if (p.holds_[id] == hold_unused) {
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit\" value=";
+			cout << id << "h>";
+			cout << "<div class=\"hold_unused_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+		} else {
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit\" value=";
+			cout << id << "u>";
+			cout << "<div class=\"hold_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+		}
+		cout << "</form>\n\n";
 	}
 
 	cout << "</div>";
@@ -67,7 +80,36 @@ void generator::generate_problem (int problem_id)
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
-	cout << "</a>";
+}
+
+void generator::edit_problem(int problem_id, string change)
+{
+	char c = change[change.length() - 1];
+	hold_type type;
+	switch(c) {
+		case 'u':
+			type = hold_unused;
+			break;
+		case 's':
+			type = hold_start;
+			break;
+		case 'e':
+			type = hold_end;
+			break;
+		case 'h':
+			type = hold_hand;
+			break;
+		case 'f':
+			type = hold_foot;
+			break;
+		default:
+			assert(0);
+	}
+
+	change.pop_back();
+	int hold_id = stoi(change);
+
+	database_.edit_problem(problem_id, hold_id, type);
 }
 
 void generator::generate_all_problems ()
@@ -77,16 +119,19 @@ void generator::generate_all_problems ()
 	list < problem > p_list;
 	database_.get_all_problems (p_list);
 
+	list < hold > h_list;
+	database_.get_all_holds (h_list);
+
 	for (auto it = p_list.begin (); it != p_list.end (); ++it) {
 		cout << "<a href=\"/cgi-bin/mycgi?problem_id=" << (*it).id_ << "\">";
 		cout << "<div class=\"small_problem_box " << grade_div_name ((*it).grade_);
 		cout << "\">";
 		cout << "<div class=\"small_problem_box_image\"><img src=\"/template.jpg\">";
 
-		int i = 0;
-		while ((*it).holds_[i].hold_id) {
-			cout << "<div class=\"hold_" << (*it).holds_[i].hold_id << "\"> </div>";
-			i++;
+		for (auto h = h_list.begin (); h != h_list.end (); ++h) {
+			int id = (*h).id;
+			if ((*it).holds_[id] != hold_unused)
+				cout << "<div class=\"hold_" << id << "\"> </div>";
 		}
 
 		cout << "</div>";
@@ -99,6 +144,29 @@ void generator::generate_all_problems ()
 		cout << "</div>";
 		cout << "</a>";
 	}
+}
+
+void generator::output_head()
+{
+	cout << "<head>\n";
+	cout << "<title>Alpaca Climbing 🦙</title>\n";
+	output_css ();
+	cout << "</head>\n";
+}
+
+void generator::add_problem ()
+{
+	int index;
+	database_.add_problem (index);
+
+	cout << "<head>\n";
+	cout << "<title>Alpaca Climbing</title>\n";
+	cout << "</head>\n";
+
+	cout << "<head>\n";
+	cout << "<meta http-equiv=\"refresh\" content=\"0; url=/cgi-bin/mycgi?problem_id=" << index << "\" />\n";
+	cout << "</head>\n";
+	cout << "<body>\n";
 }
 
 void generator::output_css ()
@@ -117,8 +185,19 @@ void generator::output_css ()
 	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
 		cout << ".hold_" << (*it).id << " {\n";
 		cout << "	position: absolute;\n";
-//              cout << "       background-color: rgb(255, 255, 255, 0.3);\n";
 		cout << "	border: 2px solid red;\n";
+		cout << "	border-radius: 50%;\n";
+		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
+		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";
+		cout << "	width: " << (*it).radius / 2.7f << "%;\n";
+		cout << "	height: " << (*it).radius / 3.3f << "%;\n";
+		cout << "}\n";
+	}
+
+	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
+		cout << ".hold_unused_" << (*it).id << " {\n";
+		cout << "	position: absolute;\n";
+		cout << "       background-color: rgb(255, 255, 255, 0.2);\n";
 		cout << "	border-radius: 50%;\n";
 		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
 		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";

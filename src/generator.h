@@ -4,13 +4,19 @@
 #include "src/database.h"
 #include "src/problem.h"
 
+using namespace std;
+
 class generator {
       public:
+	generator();
 	void generate_problem (int problem_id);
+	void edit_problem (int problem_id, string change);
 	void generate_all_problems ();
-	void output_css ();
+	void add_problem();
+	void output_head ();
       private:
 
+	void output_css ();
 	void generate_header ();
 	database database_;
 };
