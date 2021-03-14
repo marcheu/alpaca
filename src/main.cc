@@ -39,17 +39,20 @@ int main (int argc, char *argv[])
 				g.generate_all_problems ();
 			} else if (!std::string (**fi).compare ("new")) {
 				g.add_problem ();
-			}
-			else {
+			} else {
 				g.output_head();
 				int problem_id = atoi (std::string (**fi).c_str ());
-				form_iterator fi = formData.getElement ("edit");
+				form_iterator fi = formData.getElement ("edit_hold");
 				if (!fi->isEmpty ()) {
-					g.edit_problem(problem_id, std::string (**fi));
-					cout << "DID AN EDIT " << std::string (**fi) << endl;
+					g.edit_problem_hold(problem_id, std::string (**fi));
+					cout << "DID A HOLD EDIT " << std::string (**fi) << endl;
 				}
-				if (problem_id)
-					g.generate_problem (problem_id);
+				fi = formData.getElement ("edit_grade");
+				if (!fi->isEmpty ()) {
+					g.edit_problem_grade(problem_id, std::string (**fi));
+					cout << "DID A GRADE EDIT " << std::string (**fi) << endl;
+				}
+				g.generate_problem (problem_id);
 			}
 		}
 

@@ -60,11 +60,11 @@ void generator::generate_problem (int problem_id)
 		int id = (*it).id;
 
 		if (p.holds_[id] == hold_unused) {
-			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit\" value=";
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "h>";
 			cout << "<div class=\"hold_unused_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
 		} else {
-			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit\" value=";
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "u>";
 			cout << "<div class=\"hold_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
 		}
@@ -75,6 +75,17 @@ void generator::generate_problem (int problem_id)
 	cout << "<br>";
 	cout << "<div class=\"title_box\"><b>" << p.name_ << "</b></div>" << endl;
 	cout << "<div class=\"big_problem_box_text\">";
+
+	cout << "<form method=\"POST\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\">";
+	cout << "<select id=\"grade\" name=\"edit_grade\" onchange='if(this.value != 0) { this.form.submit(); }'>" << endl;
+	for (unsigned i = 0; i < VLAST; i++)
+		if (i == p.grade_)
+			cout << "<option value=\"" << grade_name ((problem_grade)i) << "\" selected=\"selected\">" << grade_name ((problem_grade)i) << "</option>" << endl;
+		else
+			cout << "<option value=\"" << grade_name ((problem_grade)i) << "\">" << grade_name ((problem_grade)i) << "</option>" << endl;
+	cout << "</select>" << endl;
+	cout << "</form>" << endl;
+
 	cout << "<b>" << grade_name (p.grade_) << "</b><br>";
 	cout << "<br>author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
@@ -82,7 +93,7 @@ void generator::generate_problem (int problem_id)
 	cout << "</div>";
 }
 
-void generator::edit_problem(int problem_id, string change)
+void generator::edit_problem_hold(int problem_id, string change)
 {
 	char c = change[change.length() - 1];
 	hold_type type;
@@ -109,7 +120,18 @@ void generator::edit_problem(int problem_id, string change)
 	change.pop_back();
 	int hold_id = stoi(change);
 
-	database_.edit_problem(problem_id, hold_id, type);
+	database_.edit_problem_hold(problem_id, hold_id, type);
+}
+
+void generator::edit_problem_grade(int problem_id, string change)
+{
+	int i;
+	for(i = VBm; i < VLAST; i++)
+		if (!strcmp(grade_name((problem_grade)i), change.c_str()))
+			break;
+
+	if (i != VLAST)
+		database_.edit_problem_grade(problem_id, (problem_grade)i);
 }
 
 void generator::generate_all_problems ()

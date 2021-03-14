@@ -403,11 +403,10 @@ bool database::add_problem (int &index)
 	p.date_.year = 2020;
 	p.date_.month = 10;
 	p.date_.day = 5;
-	for(int i = 0; i < ARRAY_SIZE(p.holds_); i++)
+	for(unsigned i = 0; i < ARRAY_SIZE(p.holds_); i++)
 		p.holds_[i] = hold_unused;
 
-	sprintf(name, "%d", index);
-	save_problem(name, p);
+	save_problem(index, p);
 
 	return true;
 }
@@ -430,8 +429,11 @@ bool database::load_problems ()
 	return success;
 }
 
-bool database::save_problem (const char *name, problem & p)
+bool database::save_problem (int problem_id, problem & p)
 {
+	char name[128];
+	sprintf(name, "%d", problem_id);
+
 	ofstream problem_file;
 	string full_name = string(data_dir_) + string(name);
 	problem_file.open (full_name);
@@ -461,7 +463,7 @@ bool database::get_all_holds (list < hold > &h_list)
 	return true;
 }
 
-bool database::edit_problem(int problem_id, int hold_id, hold_type type)
+bool database::edit_problem_hold(int problem_id, int hold_id, hold_type type)
 {
 	for (auto it = problems_.begin (); it != problems_.end (); ++it)
 		if ((*it).id_ == problem_id)
@@ -469,9 +471,19 @@ bool database::edit_problem(int problem_id, int hold_id, hold_type type)
 
 	problem p;
 	get_problem(problem_id, p);
-	char name[128];
-	sprintf(name, "%d", problem_id);
-	save_problem(name, p);
+	save_problem(problem_id, p);
+	return true;
+}
+
+bool database::edit_problem_grade(int problem_id, problem_grade grade)
+{
+	for (auto it = problems_.begin (); it != problems_.end (); ++it)
+		if ((*it).id_ == problem_id)
+			(*it).grade_ = grade;
+
+	problem p;
+	get_problem(problem_id, p);
+	save_problem(problem_id, p);
 	return true;
 }
 
