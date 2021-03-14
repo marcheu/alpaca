@@ -40,7 +40,7 @@ generator::generator ()
 
 void generator::generate_header ()
 {
-	cout << "<div class=\"page_header\"><b> Alpaca </b><a href=\"/cgi-bin/mycgi?problem_id=new\"><img src=\"/icon-edit.png\" width=10\%></a>  <a href=\"/cgi-bin/mycgi?problem_id=all\"><img src=\"/icon-list.png\" width=10\%></a>  <img src=\"/icon-stats.png\" width=10\%>  <img src=\"/icon-light.png\" width=10\%></div>" << endl;
+	cout << "<div class='page_header'><b> Alpaca </b><a href='/cgi-bin/mycgi?problem_id=new'><img src='/icon-edit.png' width=10\%></a>  <a href='/cgi-bin/mycgi?problem_id=all'><img src='/icon-list.png' width=10\%></a>  <img src='/icon-stats.png' width=10\%>  <img src='/icon-light.png' width=10\%></div>" << endl;
 }
 
 void generator::generate_problem (int problem_id)
@@ -87,7 +87,6 @@ void generator::generate_problem (int problem_id)
 	cout << "</select>" << endl;
 	cout << "</form>" << endl;
 
-	cout << "<b>" << grade_name (p.grade_) << "</b><br>";
 	cout << "<br>author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
