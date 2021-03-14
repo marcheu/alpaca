@@ -35,21 +35,23 @@ int main (int argc, char *argv[])
 		fi = formData.getElement ("problem_id");
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("all")) {
-				g.output_head();
+				g.output_head ();
 				g.generate_all_problems ();
-			} else if (!std::string (**fi).compare ("new")) {
+			}
+			else if (!std::string (**fi).compare ("new")) {
 				g.add_problem ();
-			} else {
-				g.output_head();
+			}
+			else {
+				g.output_head ();
 				int problem_id = atoi (std::string (**fi).c_str ());
 				form_iterator fi = formData.getElement ("edit_hold");
 				if (!fi->isEmpty ()) {
-					g.edit_problem_hold(problem_id, std::string (**fi));
+					g.edit_problem_hold (problem_id, std::string (**fi));
 					cout << "DID A HOLD EDIT " << std::string (**fi) << endl;
 				}
 				fi = formData.getElement ("edit_grade");
 				if (!fi->isEmpty ()) {
-					g.edit_problem_grade(problem_id, std::string (**fi));
+					g.edit_problem_grade (problem_id, std::string (**fi));
 					cout << "DID A GRADE EDIT " << std::string (**fi) << endl;
 				}
 				g.generate_problem (problem_id);

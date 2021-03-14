@@ -33,9 +33,9 @@ static const char *grade_div_name (problem_grade g)
 	return grades[g];
 }
 
-generator::generator()
+generator::generator ()
 {
-	cout.precision(3);
+	cout.precision (3);
 }
 
 void generator::generate_header ()
@@ -63,7 +63,8 @@ void generator::generate_problem (int problem_id)
 			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "h>";
 			cout << "<div class=\"hold_unused_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
-		} else {
+		}
+		else {
 			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "u>";
 			cout << "<div class=\"hold_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
@@ -80,9 +81,9 @@ void generator::generate_problem (int problem_id)
 	cout << "<select id=\"grade\" name=\"edit_grade\" onchange='if(this.value != 0) { this.form.submit(); }'>" << endl;
 	for (unsigned i = 0; i < VLAST; i++)
 		if (i == p.grade_)
-			cout << "<option value=\"" << grade_name ((problem_grade)i) << "\" selected=\"selected\">" << grade_name ((problem_grade)i) << "</option>" << endl;
+			cout << "<option value=\"" << grade_name ((problem_grade) i) << "\" selected=\"selected\">" << grade_name ((problem_grade) i) << "</option>" << endl;
 		else
-			cout << "<option value=\"" << grade_name ((problem_grade)i) << "\">" << grade_name ((problem_grade)i) << "</option>" << endl;
+			cout << "<option value=\"" << grade_name ((problem_grade) i) << "\">" << grade_name ((problem_grade) i) << "</option>" << endl;
 	cout << "</select>" << endl;
 	cout << "</form>" << endl;
 
@@ -93,45 +94,45 @@ void generator::generate_problem (int problem_id)
 	cout << "</div>";
 }
 
-void generator::edit_problem_hold(int problem_id, string change)
+void generator::edit_problem_hold (int problem_id, string change)
 {
-	char c = change[change.length() - 1];
+	char c = change[change.length () - 1];
 	hold_type type;
-	switch(c) {
-		case 'u':
-			type = hold_unused;
-			break;
-		case 's':
-			type = hold_start;
-			break;
-		case 'e':
-			type = hold_end;
-			break;
-		case 'h':
-			type = hold_hand;
-			break;
-		case 'f':
-			type = hold_foot;
-			break;
-		default:
-			assert(0);
+	switch (c) {
+	case 'u':
+		type = hold_unused;
+		break;
+	case 's':
+		type = hold_start;
+		break;
+	case 'e':
+		type = hold_end;
+		break;
+	case 'h':
+		type = hold_hand;
+		break;
+	case 'f':
+		type = hold_foot;
+		break;
+	default:
+		assert (0);
 	}
 
-	change.pop_back();
-	int hold_id = stoi(change);
+	change.pop_back ();
+	int hold_id = stoi (change);
 
-	database_.edit_problem_hold(problem_id, hold_id, type);
+	database_.edit_problem_hold (problem_id, hold_id, type);
 }
 
-void generator::edit_problem_grade(int problem_id, string change)
+void generator::edit_problem_grade (int problem_id, string change)
 {
 	int i;
-	for(i = VBm; i < VLAST; i++)
-		if (!strcmp(grade_name((problem_grade)i), change.c_str()))
+	for (i = VBm; i < VLAST; i++)
+		if (!strcmp (grade_name ((problem_grade) i), change.c_str ()))
 			break;
 
 	if (i != VLAST)
-		database_.edit_problem_grade(problem_id, (problem_grade)i);
+		database_.edit_problem_grade (problem_id, (problem_grade) i);
 }
 
 void generator::generate_all_problems ()
@@ -168,7 +169,7 @@ void generator::generate_all_problems ()
 	}
 }
 
-void generator::output_head()
+void generator::output_head ()
 {
 	cout << "<head>\n";
 	cout << "<title>Alpaca Climbing 🦙</title>\n";

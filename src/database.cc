@@ -356,29 +356,29 @@ bool database::load_holds ()
 bool database::load_problem (const char *name, problem & p)
 {
 	ifstream problem_file;
-	string full_name = string(data_dir_) + string(name);
+	string full_name = string (data_dir_) + string (name);
 	problem_file.open (full_name);
 	string line;
 
-	getline( problem_file, line);
-	p.id_ = stoi(line);
-	getline( problem_file, line);
-	strcpy(p.name_, line.c_str());
-	getline( problem_file, line);
-	strcpy(p.author_, line.c_str());
-	getline( problem_file, line);
-	p.grade_ = (problem_grade) stoi(line);
-	getline( problem_file, line);
-	sscanf(line.c_str(), "%d %d %d", &p.date_.year, &p.date_.month, &p.date_.day);
+	getline (problem_file, line);
+	p.id_ = stoi (line);
+	getline (problem_file, line);
+	strcpy (p.name_, line.c_str ());
+	getline (problem_file, line);
+	strcpy (p.author_, line.c_str ());
+	getline (problem_file, line);
+	p.grade_ = (problem_grade) stoi (line);
+	getline (problem_file, line);
+	sscanf (line.c_str (), "%d %d %d", &p.date_.year, &p.date_.month, &p.date_.day);
 
 	unsigned i, num_holds;
-	getline( problem_file, line);
-	num_holds = stoi(line);
+	getline (problem_file, line);
+	num_holds = stoi (line);
 	for (i = 0; i < num_holds; i++) {
-		getline( problem_file, line);
-		p.holds_[i] = (hold_type)stoi(line);
+		getline (problem_file, line);
+		p.holds_[i] = (hold_type) stoi (line);
 	}
-	problem_file.close();
+	problem_file.close ();
 
 	return true;
 }
@@ -391,22 +391,22 @@ bool database::add_problem (int &index)
 
 	index = 0;
 	while (it.run (name)) {
-		index = max(index, atoi(name));
+		index = max (index, atoi (name));
 	}
-	index ++;
+	index++;
 
 	problem p;
 	p.id_ = index;
-	strcpy(p.name_, "new problem");
-	strcpy(p.author_, "new author");
+	strcpy (p.name_, "new problem");
+	strcpy (p.author_, "new author");
 	p.grade_ = VBm;
 	p.date_.year = 2020;
 	p.date_.month = 10;
 	p.date_.day = 5;
-	for(unsigned i = 0; i < ARRAY_SIZE(p.holds_); i++)
+	for (unsigned i = 0; i < ARRAY_SIZE (p.holds_); i++)
 		p.holds_[i] = hold_unused;
 
-	save_problem(index, p);
+	save_problem (index, p);
 
 	return true;
 }
@@ -432,10 +432,10 @@ bool database::load_problems ()
 bool database::save_problem (int problem_id, problem & p)
 {
 	char name[128];
-	sprintf(name, "%d", problem_id);
+	sprintf (name, "%d", problem_id);
 
 	ofstream problem_file;
-	string full_name = string(data_dir_) + string(name);
+	string full_name = string (data_dir_) + string (name);
 	problem_file.open (full_name);
 	problem_file << p.id_ << endl;
 	problem_file << p.name_ << endl;
@@ -444,14 +444,14 @@ bool database::save_problem (int problem_id, problem & p)
 	problem_file << p.date_.year << " " << p.date_.month << " " << p.date_.day << endl;
 
 	unsigned i;
-	problem_file << ARRAY_SIZE(p.holds_) << endl;
-	for (i = 0; i < ARRAY_SIZE(p.holds_); i++) {
-		if (i < holds_.size())
+	problem_file << ARRAY_SIZE (p.holds_) << endl;
+	for (i = 0; i < ARRAY_SIZE (p.holds_); i++) {
+		if (i < holds_.size ())
 			problem_file << p.holds_[i] << endl;
 		else
 			problem_file << hold_unused << endl;
 	}
-	problem_file.close();
+	problem_file.close ();
 
 	return true;
 }
@@ -463,27 +463,27 @@ bool database::get_all_holds (list < hold > &h_list)
 	return true;
 }
 
-bool database::edit_problem_hold(int problem_id, int hold_id, hold_type type)
+bool database::edit_problem_hold (int problem_id, int hold_id, hold_type type)
 {
 	for (auto it = problems_.begin (); it != problems_.end (); ++it)
 		if ((*it).id_ == problem_id)
 			(*it).holds_[hold_id] = type;
 
 	problem p;
-	get_problem(problem_id, p);
-	save_problem(problem_id, p);
+	get_problem (problem_id, p);
+	save_problem (problem_id, p);
 	return true;
 }
 
-bool database::edit_problem_grade(int problem_id, problem_grade grade)
+bool database::edit_problem_grade (int problem_id, problem_grade grade)
 {
 	for (auto it = problems_.begin (); it != problems_.end (); ++it)
 		if ((*it).id_ == problem_id)
 			(*it).grade_ = grade;
 
 	problem p;
-	get_problem(problem_id, p);
-	save_problem(problem_id, p);
+	get_problem (problem_id, p);
+	save_problem (problem_id, p);
 	return true;
 }
 
