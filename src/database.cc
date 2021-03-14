@@ -59,24 +59,24 @@ bool database::load_holds ()
 	// Row 1
 	add_hold (0, 15.f, 17.f, 13.f, holds_);
 	add_hold (1, 51.f, 9.f, 21.f, holds_);
-	add_hold (2, 100.f, 12.f, 14.f, holds_);
-	add_hold (3, 148.f, 17.f, 13.f, holds_);
+	add_hold (2, 102.f, 12.f, 14.f, holds_);
+	add_hold (3, 150.f, 17.f, 14.f, holds_);
 	add_hold (4, 192.f, 15.f, 14.f, holds_);
 	add_hold (5, 240.f, 11.f, 16.f, holds_);
 
 	add_hold (6, 288.f, 15.f, 12.f, holds_);
 	add_hold (7, 333.f, 13.f, 15.f, holds_);
-	add_hold (8, 375.f, 13.f, 17.f, holds_);
+	add_hold (8, 378.f, 13.f, 17.f, holds_);
 	add_hold (9, 427.f, 10.f, 15.f, holds_);
 	add_hold (10, 473.f, 9.f, 15.f, holds_);
 
 	// Row 2
-	add_hold (11, 15.f, 62.f, 13.f, holds_);
+	add_hold (11, 17.f, 62.f, 13.f, holds_);
 	add_hold (12, 60.f, 65.f, 13.f, holds_);
 	add_hold (13, 103.f, 57.f, 14.f, holds_);
 	add_hold (14, 149.f, 62.f, 12.f, holds_);
 	add_hold (15, 192.f, 60.f, 14.f, holds_);
-	add_hold (16, 236.f, 60.f, 16.f, holds_);
+	add_hold (16, 238.f, 60.f, 16.f, holds_);
 
 	add_hold (17, 288.f, 60.f, 12.f, holds_);
 	add_hold (18, 326.f, 58.f, 20.f, holds_);
@@ -91,22 +91,22 @@ bool database::load_holds ()
 	add_hold (25, 400.f, 88.f, 13.f, holds_);
 
 	// Row 3
-	add_hold (26, 17.f, 112.f, 13.f, holds_);
+	add_hold (26, 21.f, 112.f, 13.f, holds_);
 	add_hold (27, 65.f, 115.f, 12.f, holds_);
 	add_hold (28, 105.f, 112.f, 14.f, holds_);
 	add_hold (29, 150.f, 112.f, 13.f, holds_);
 	add_hold (30, 194.f, 114.f, 14.f, holds_);
-	add_hold (31, 238.f, 110.f, 13.f, holds_);
+	add_hold (31, 241.f, 110.f, 13.f, holds_);
 
 	add_hold (32, 286.f, 114.f, 11.f, holds_);
 	add_hold (33, 330.f, 113.f, 12.f, holds_);
 	add_hold (34, 375.f, 114.f, 11.f, holds_);
 	add_hold (35, 418.f, 110.f, 14.f, holds_);
-	add_hold (36, 466.f, 112.f, 11.f, holds_);
+	add_hold (36, 470.f, 115.f, 11.f, holds_);
 
 	// Row 3.5
-	add_hold (37, 132.f, 137.f, 10.f, holds_);
-	add_hold (38, 304.f, 137.f, 12.f, holds_);
+	add_hold (37, 135.f, 137.f, 10.f, holds_);
+	add_hold (38, 307.f, 139.f, 12.f, holds_);
 
 	// Row 4
 	add_hold (39, 24.f, 158.f, 13.f, holds_);
@@ -115,7 +115,7 @@ bool database::load_holds ()
 	add_hold (42, 150.f, 152.f, 18.f, holds_);
 	add_hold (43, 197.f, 160.f, 12.f, holds_);
 	add_hold (44, 232.f, 146.f, 13.f, holds_);
-	add_hold (45, 242.f, 170.f, 13.f, holds_);
+	add_hold (45, 245.f, 170.f, 13.f, holds_);
 
 	add_hold (46, 288.f, 164.f, 11.f, holds_);
 	add_hold (47, 324.f, 156.f, 15.f, holds_);
@@ -184,11 +184,11 @@ bool database::load_holds ()
 	add_hold (97, 310.f, 316.f, 7.f, holds_);
 
 	// Row 8
-	add_hold (98, 42.f, 325.f, 11.f, holds_);
-	add_hold (99, 80.f, 325.f, 10.f, holds_);
-	add_hold (100, 122.f, 328.f, 11.f, holds_);
-	add_hold (101, 164.f, 326.f, 10.f, holds_);
-	add_hold (102, 205.f, 330.f, 11.f, holds_);
+	add_hold (98, 44.f, 325.f, 11.f, holds_);
+	add_hold (99, 83.f, 325.f, 10.f, holds_);
+	add_hold (100, 125.f, 328.f, 11.f, holds_);
+	add_hold (101, 167.f, 328.f, 10.f, holds_);
+	add_hold (102, 205.f, 330.f, 12.f, holds_);
 	add_hold (103, 240.f, 327.f, 16.f, holds_);
 
 	add_hold (104, 290.f, 333.f, 8.f, holds_);
@@ -204,11 +204,11 @@ bool database::load_holds ()
 	add_hold (110, 86.f, 362.f, 15.f, holds_);
 	add_hold (111, 124.f, 366.f, 11.f, holds_);
 	add_hold (112, 162.f, 366.f, 15.f, holds_);
-	add_hold (113, 205.f, 369.f, 8.f, holds_);
+	add_hold (113, 208.f, 369.f, 8.f, holds_);
 	add_hold (114, 246.f, 366.f, 9.f, holds_);
 
 	add_hold (115, 276.f, 360.f, 18.f, holds_);
-	add_hold (116, 325.f, 371.f, 8.f, holds_);
+	add_hold (116, 327.f, 371.f, 8.f, holds_);
 	add_hold (117, 445.f, 370.f, 11.f, holds_);
 	add_hold (118, 486.f, 368.f, 12.f, holds_);
 
@@ -220,19 +220,19 @@ bool database::load_holds ()
 	add_hold (123, 305.f, 391.f, 8.f, holds_);
 
 	// Row 10
-	add_hold (124, 46.f, 405.f, 11.f, holds_);
+	add_hold (124, 49.f, 405.f, 11.f, holds_);
 	add_hold (125, 86.f, 396.f, 13.f, holds_);
 	add_hold (126, 127.f, 403.f, 11.f, holds_);
 	add_hold (127, 164.f, 404.f, 11.f, holds_);
 	add_hold (128, 208.f, 409.f, 10.f, holds_);
 	add_hold (129, 248.f, 406.f, 10.f, holds_);
 
-	add_hold (130, 286.f, 406.f, 8.f, holds_);
+	add_hold (130, 290.f, 406.f, 8.f, holds_);
 	add_hold (131, 323.f, 411.f, 12.f, holds_);
 	add_hold (132, 364.f, 407.f, 11.f, holds_);
 	add_hold (133, 403.f, 407.f, 10.f, holds_);
 	add_hold (134, 445.f, 408.f, 11.f, holds_);
-	add_hold (135, 482.f, 408.f, 10.f, holds_);
+	add_hold (135, 485.f, 408.f, 10.f, holds_);
 
 	// Row 10.5
 	add_hold (136, 150.f, 425.f, 8.f, holds_);
@@ -241,7 +241,7 @@ bool database::load_holds ()
 	add_hold (139, 385.f, 429.f, 8.f, holds_);
 
 	// Row 11
-	add_hold (140, 50.f, 440.f, 9.f, holds_);
+	add_hold (140, 54.f, 440.f, 9.f, holds_);
 	add_hold (141, 87.f, 440.f, 12.f, holds_);
 	add_hold (142, 127.f, 439.f, 12.f, holds_);
 	add_hold (143, 168.f, 444.f, 10.f, holds_);
@@ -261,8 +261,8 @@ bool database::load_holds ()
 	add_hold (154, 384.f, 463.f, 8.f, holds_);
 
 	// Row 12
-	add_hold (155, 53.f, 476.f, 9.f, holds_);
-	add_hold (156, 90.f, 476.f, 10.f, holds_);
+	add_hold (155, 57.f, 476.f, 9.f, holds_);
+	add_hold (156, 93.f, 476.f, 10.f, holds_);
 	add_hold (157, 129.f, 478.f, 11.f, holds_);
 	add_hold (158, 168.f, 476.f, 10.f, holds_);
 	add_hold (159, 204.f, 473.f, 12.f, holds_);
@@ -276,7 +276,7 @@ bool database::load_holds ()
 	add_hold (166, 480.f, 481.f, 9.f, holds_);
 
 	// Row 13
-	add_hold (167, 56.f, 509.f, 9.f, holds_);
+	add_hold (167, 60.f, 509.f, 9.f, holds_);
 	add_hold (168, 94.f, 510.f, 10.f, holds_);
 	add_hold (169, 134.f, 510.f, 9.f, holds_);
 	add_hold (170, 170.f, 512.f, 11.f, holds_);
@@ -291,7 +291,7 @@ bool database::load_holds ()
 	add_hold (178, 474.f, 512.f, 11.f, holds_);
 
 	// Row 14
-	add_hold (179, 59.f, 544.f, 9.f, holds_);
+	add_hold (179, 62.f, 544.f, 9.f, holds_);
 	add_hold (180, 96.f, 543.f, 10.f, holds_);
 	add_hold (181, 134.f, 544.f, 9.f, holds_);
 	add_hold (182, 170.f, 542.f, 11.f, holds_);
@@ -308,12 +308,12 @@ bool database::load_holds ()
 	// Row 15
 	add_hold (191, 62.f, 576.f, 9.f, holds_);
 	add_hold (192, 96.f, 576.f, 10.f, holds_);
-	add_hold (193, 134.f, 577.f, 9.f, holds_);
+	add_hold (193, 137.f, 577.f, 9.f, holds_);
 	add_hold (194, 170.f, 574.f, 11.f, holds_);
 	add_hold (195, 205.f, 573.f, 15.f, holds_);
 	add_hold (196, 243.f, 577.f, 14.f, holds_);
 
-	add_hold (197, 282.f, 580.f, 9.f, holds_);
+	add_hold (197, 285.f, 580.f, 9.f, holds_);
 	add_hold (198, 318.f, 580.f, 10.f, holds_);
 	add_hold (199, 360.f, 580.f, 10.f, holds_);
 	add_hold (200, 396.f, 580.f, 10.f, holds_);
@@ -328,7 +328,7 @@ bool database::load_holds ()
 	add_hold (207, 210.f, 605.f, 10.f, holds_);
 	add_hold (208, 246.f, 607.f, 10.f, holds_);
 
-	add_hold (209, 282.f, 610.f, 9.f, holds_);
+	add_hold (209, 285.f, 610.f, 9.f, holds_);
 	add_hold (210, 318.f, 610.f, 10.f, holds_);
 	add_hold (211, 356.f, 610.f, 10.f, holds_);
 	add_hold (212, 392.f, 610.f, 10.f, holds_);
@@ -337,11 +337,11 @@ bool database::load_holds ()
 
 	// Row 17
 	add_hold (215, 68.f, 638.f, 9.f, holds_);
-	add_hold (216, 100.f, 638.f, 10.f, holds_);
+	add_hold (216, 104.f, 638.f, 10.f, holds_);
 	add_hold (217, 138.f, 639.f, 9.f, holds_);
 	add_hold (218, 174.f, 637.f, 11.f, holds_);
-	add_hold (219, 208.f, 638.f, 10.f, holds_);
-	add_hold (220, 243.f, 637.f, 10.f, holds_);
+	add_hold (219, 211.f, 638.f, 10.f, holds_);
+	add_hold (220, 245.f, 637.f, 10.f, holds_);
 
 	add_hold (221, 282.f, 640.f, 9.f, holds_);
 	add_hold (222, 318.f, 640.f, 10.f, holds_);
