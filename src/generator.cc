@@ -45,13 +45,14 @@ void generator::generate_header ()
 
 void generator::generate_problem (int problem_id)
 {
-	generate_header ();
-
 	problem p;
 	database_.get_problem (problem_id, p);
 
 	list < hold > h_list;
 	database_.get_all_holds (h_list);
+
+	output_head(&p);
+	generate_header ();
 
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -63,19 +64,61 @@ void generator::generate_problem (int problem_id)
 			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "h>";
 			cout << "<div class=\"hold_unused_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
-		}
-		else {
+		} else if (p.holds_[id] == hold_hand) {
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
+			cout << id << "f>";
+			cout << "<div class=\"hold_hand_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+		} else if (p.holds_[id] == hold_foot) {
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
+			cout << id << "s>";
+			cout << "<div class=\"hold_foot_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+		} else if (p.holds_[id] == hold_start) {
+			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
+			cout << id << "e>";
+			cout << "<div class=\"hold_start_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+		} else if (p.holds_[id] == hold_end) {
 			cout << "<form id=\"form-id" << id << "\" method=\"post\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\"><input type=\"hidden\" name=\"edit_hold\" value=";
 			cout << id << "u>";
-			cout << "<div class=\"hold_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
+			cout << "<div class=\"hold_end_" << id << "\" onclick=\"document.getElementById('form-id" << id << "').submit();\"> </div>";
 		}
 		cout << "</form>\n\n";
 	}
 
 	cout << "</div>";
 	cout << "<br>";
-	cout << "<div class=\"title_box\"><b>" << p.name_ << "</b></div>" << endl;
-	cout << "<div class=\"big_problem_box_text\">";
+
+
+#if 0
+<script>
+    function getContent(){
+        document.getElementById("my-textarea").value = document.getElementById("my-content").innerHTML;
+    }
+</script>
+
+
+<div id="my-content" contenteditable="true"><a href="page.html">Some</a> Text</div>
+
+<form action="some-page.php" onsubmit="return getContent()">
+    <textarea id="my-textarea" style="display:none"></textarea>
+    <input type="submit" />
+</form>
+#endif
+
+	cout << "<script>";
+	cout << "    function getContent(){";
+	cout << "        document.getElementById(\"my-textarea\").value = document.getElementById(\"my-content\").innerHTML;";
+	cout << "    }";
+	cout << "</script>";
+	cout << "<div id=\"my-content\" contenteditable=\"true\">Some Text</div>";
+
+	cout << "<form action=\"some-page.php\" onsubmit=\"return getContent()\">";
+	cout << "    <textarea id=\"my-textarea\" style=\"display:none\"></textarea>";
+	cout << "    <input type=\"submit\" />";
+	cout << "</form>";
+
+
+	cout << "<div class='title_box' contentEditable='true'><b>" << p.name_ << "</b></div>" << endl;
+	cout << "<div class='big_problem_box_text'>";
 
 	cout << "<form method=\"POST\" action=\"/cgi-bin/mycgi?problem_id=" << problem_id << "\">";
 	cout << "<select id=\"grade\" name=\"edit_grade\" onchange='if(this.value != 0) { this.form.submit(); }'>" << endl;
@@ -87,7 +130,7 @@ void generator::generate_problem (int problem_id)
 	cout << "</select>" << endl;
 	cout << "</form>" << endl;
 
-	cout << "<br>author: " << p.author_;
+	cout << "author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
@@ -136,6 +179,7 @@ void generator::edit_problem_grade (int problem_id, string change)
 
 void generator::generate_all_problems ()
 {
+	output_head(NULL);
 	generate_header ();
 
 	list < problem > p_list;
@@ -152,8 +196,14 @@ void generator::generate_all_problems ()
 
 		for (auto h = h_list.begin (); h != h_list.end (); ++h) {
 			int id = (*h).id;
-			if ((*it).holds_[id] != hold_unused)
-				cout << "<div class=\"hold_" << id << "\"> </div>";
+			if ((*it).holds_[id] == hold_hand)
+				cout << "<div class=\"hold_hand_" << id << "\"> </div>";
+			else if ((*it).holds_[id] == hold_foot)
+				cout << "<div class=\"hold_foot_" << id << "\"> </div>";
+			else if ((*it).holds_[id] == hold_start)
+				cout << "<div class=\"hold_start_" << id << "\"> </div>";
+			else if ((*it).holds_[id] == hold_end)
+				cout << "<div class=\"hold_end_" << id << "\"> </div>";
 		}
 
 		cout << "</div>";
@@ -168,11 +218,11 @@ void generator::generate_all_problems ()
 	}
 }
 
-void generator::output_head ()
+void generator::output_head (problem *p)
 {
 	cout << "<head>\n";
 	cout << "<title>Alpaca Climbing 🦙</title>\n";
-	output_css ();
+	output_css (p);
 	cout << "</head>\n";
 }
 
@@ -191,7 +241,67 @@ void generator::add_problem ()
 	cout << "<body>\n";
 }
 
-void generator::output_css ()
+static void output_hold_div(hold_type type, int id, float xpos, float ypos, float radius)
+{
+	switch(type) {
+		case hold_unused:
+			cout << ".hold_unused_" << id << " {\n";
+			cout << "position:absolute;\n";
+			cout << "background-color:rgb(255, 255, 255, 0.2);\n";
+			cout << "border-radius:50%;\n";
+			cout << "top:" << ypos / 7.15f << "\%;\n";
+			cout << "left:" << xpos / 5.66f << "\%;\n";
+			cout << "width:" << radius / 2.7f << "\%;\n";
+			cout << "height:" << radius / 3.3f << "\%;\n";
+			cout << "}\n";
+			break;
+		case hold_start:
+			cout << ".hold_start_" << id << " {\n";
+			cout << "position:absolute;\n";
+			cout << "border:2px solid red;\n";
+			cout << "border-radius:50% / 80% 80% 0 0;\n";
+			cout << "top:" << ypos / 7.15f << "\%;\n";
+			cout << "left:" << xpos / 5.66f << "\%;\n";
+			cout << "width:" << radius / 2.7f << "\%;\n";
+			cout << "height:" << radius / 3.3f << "\%;\n";
+			cout << "}\n";
+			break;
+		case hold_end:
+			cout << ".hold_end_" << id << " {\n";
+			cout << "position:absolute;\n";
+			cout << "border:2px solid red;\n";
+			cout << "border-radius:50% / 0 0 80% 80%;\n";
+			cout << "top:" << ypos / 7.15f << "\%;\n";
+			cout << "left:" << xpos / 5.66f << "\%;\n";
+			cout << "width:" << radius / 2.7f << "\%;\n";
+			cout << "height:" << radius / 3.3f << "\%;\n";
+			cout << "}\n";
+			break;
+		case hold_hand:
+			cout << ".hold_hand_" << id << " {\n";
+			cout << "position:absolute;\n";
+			cout << "border:2px solid red;\n";
+			cout << "border-radius:50%;\n";
+			cout << "top:" << ypos / 7.15f << "\%;\n";
+			cout << "left:" << xpos / 5.66f << "\%;\n";
+			cout << "width:" << radius / 2.7f << "\%;\n";
+			cout << "height:" << radius / 3.3f << "\%;\n";
+			cout << "}\n";
+			break;
+		case hold_foot:
+			cout << ".hold_foot_" << id << " {\n";
+			cout << "position:absolute;\n";
+			cout << "border:2px solid red;\n";
+			cout << "top:" << ypos / 7.15f << "\%;\n";
+			cout << "left:" << xpos / 5.66f << "\%;\n";
+			cout << "width:" << radius / 2.7f << "\%;\n";
+			cout << "height:" << radius / 3.3f << "\%;\n";
+			cout << "}\n";
+			break;
+	}
+}
+
+void generator::output_css (problem *p)
 {
 	string output;
 	ifstream style_file ("/home/pi/alpaca/html/style.txt");
@@ -200,32 +310,23 @@ void generator::output_css ()
 	if (style_file.is_open ())
 		cout << style_file.rdbuf ();
 
-
 	list < hold > h_list;
 	database_.get_all_holds (h_list);
 
+	int i = 0;
 	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
-		cout << ".hold_" << (*it).id << " {\n";
-		cout << "	position: absolute;\n";
-		cout << "	border: 2px solid red;\n";
-		cout << "	border-radius: 50%;\n";
-		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
-		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";
-		cout << "	width: " << (*it).radius / 2.7f << "%;\n";
-		cout << "	height: " << (*it).radius / 3.3f << "%;\n";
-		cout << "}\n";
-	}
-
-	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
-		cout << ".hold_unused_" << (*it).id << " {\n";
-		cout << "	position: absolute;\n";
-		cout << "       background-color: rgb(255, 255, 255, 0.2);\n";
-		cout << "	border-radius: 50%;\n";
-		cout << "	top: " << (*it).ypos / 7.15f << "%;\n";
-		cout << "	left: " << (*it).xpos / 5.66f << "%;\n";
-		cout << "	width: " << (*it).radius / 2.7f << "%;\n";
-		cout << "	height: " << (*it).radius / 3.3f << "%;\n";
-		cout << "}\n";
+		for(int h = (int)hold_unused; h <= (int)hold_foot; h++) {
+			if (p) {
+				// for a specific problem, only emit the divs which are used
+				if (p->holds_[i] == (hold_type)h)
+					output_hold_div((hold_type)h, (*it).id, (*it).xpos, (*it).ypos, (*it).radius);
+			} else {
+				// for the big list, we don't show unused holds
+				if (h != hold_unused)
+					output_hold_div((hold_type)h, (*it).id, (*it).xpos, (*it).ypos, (*it).radius);
+			}
+		}
+		i++;
 	}
 
 	cout << "</style>";

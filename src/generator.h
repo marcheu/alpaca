@@ -14,10 +14,10 @@ class generator {
 	void edit_problem_grade (int problem_id, string grade);
 	void generate_all_problems ();
 	void add_problem ();
-	void output_head ();
       private:
 
-	void output_css ();
+	void output_head (problem *p);
+	void output_css (problem *p);
 	void generate_header ();
 	database database_;
 };

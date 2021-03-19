@@ -35,14 +35,12 @@ int main (int argc, char *argv[])
 		fi = formData.getElement ("problem_id");
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("all")) {
-				g.output_head ();
 				g.generate_all_problems ();
 			}
 			else if (!std::string (**fi).compare ("new")) {
 				g.add_problem ();
 			}
 			else {
-				g.output_head ();
 				int problem_id = atoi (std::string (**fi).c_str ());
 				form_iterator fi = formData.getElement ("edit_hold");
 				if (!fi->isEmpty ()) {
