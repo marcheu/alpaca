@@ -32,12 +32,19 @@ int main (int argc, char *argv[])
 	else {
 		// real thing
 		form_iterator fi;
-		fi = formData.getElement ("problem_id");
+		fi = formData.getElement ("view");
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("all")) {
-				g.generate_all_problems ();
+				g.generate_view_all_problems ();
 			}
-			else if (!std::string (**fi).compare ("new")) {
+			else {
+				int problem_id = atoi (std::string (**fi).c_str ());
+				g.generate_view_problem (problem_id);
+			}
+		}
+		fi = formData.getElement ("edit");
+		if (!fi->isEmpty ()) {
+			if (!std::string (**fi).compare ("new")) {
 				g.add_problem ();
 			}
 			else {
@@ -52,7 +59,7 @@ int main (int argc, char *argv[])
 					g.edit_problem_grade (problem_id, std::string (**fi));
 					cout << "DID A GRADE EDIT " << std::string (**fi) << endl;
 				}
-				g.generate_problem (problem_id);
+				g.generate_edit_problem (problem_id);
 			}
 		}
 

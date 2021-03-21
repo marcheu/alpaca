@@ -394,10 +394,11 @@ bool database::add_problem (int &index)
 		ifstream problem_file;
 		string full_name = string (data_dir_) + to_string (index);
 		problem_file.open (full_name);
-		if (problem_file.is_open()) {
-			problem_file.close();
+		if (problem_file.is_open ()) {
+			problem_file.close ();
 			index++;
-		} else {
+		}
+		else {
 			break;
 		}
 	}
