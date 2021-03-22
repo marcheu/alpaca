@@ -66,8 +66,14 @@ int main (int argc, char *argv[])
 			}
 		}
 
+		fi = formData.getElement ("delete");
+		if (!fi->isEmpty ()) {
+			int problem_id = atoi (std::string (**fi).c_str ());
+			g.delete_problem (problem_id);
+		}
+
 		if (!action)
-			g.generate_main_redirect();
+			g.generate_main_redirect ();
 		cout << "<br/>\n";
 
 #if 0

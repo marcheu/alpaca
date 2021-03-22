@@ -20,6 +20,7 @@ class database {
 	bool edit_problem_hold (int problem_id, int hold_id, hold_type type);
 	bool edit_problem_grade (int problem_id, problem_grade grade);
 	bool add_problem (int &id);
+	bool delete_problem (int id);
 
       private:
 	  std::list < background > backgrounds_;

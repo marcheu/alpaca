@@ -38,7 +38,7 @@ generator::generator ()
 	cout.precision (3);
 }
 
-void generator::generate_header (int problem_id)
+void generator::generate_header (int problem_id, bool delete_icon)
 {
 	cout << "<div class='page_header'><b> Alpaca </b>";
 	if (problem_id == -1) {
@@ -46,6 +46,9 @@ void generator::generate_header (int problem_id)
 	else {
 		cout << "<a href='/cgi-bin/mycgi?edit=" << problem_id << "'><img src='/icon-edit.png' width=10\%></a>  <a href='/cgi-bin/mycgi?view=all'><img src='/icon-list.png' width=10\%></a>";
 	}
+
+	if (delete_icon)
+		cout << "<a href='/cgi-bin/mycgi?delete=" << problem_id << "'><img src='/icon-delete.png' width=10\%></a> ";
 	cout << "<a href='/cgi-bin/mycgi?edit=new'><img src='/icon-new.png' width=10\%></a>";
 
 	cout << "<img src='/icon-stats.png' width=10\%>  <img src='/icon-light.png' width=10\%></div>" << endl;
@@ -60,7 +63,7 @@ void generator::generate_view_problem (int problem_id)
 	database_.get_all_holds (h_list);
 
 	output_head (&p);
-	generate_header (problem_id);
+	generate_header (problem_id, false);
 
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -105,7 +108,7 @@ void generator::generate_edit_problem (int problem_id)
 	database_.get_all_holds (h_list);
 
 	output_head (&p);
-	generate_header (problem_id);
+	generate_header (problem_id, true);
 
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -227,7 +230,7 @@ void generator::edit_problem_grade (int problem_id, string change)
 void generator::generate_view_all_problems ()
 {
 	output_head (NULL);
-	generate_header (-1);
+	generate_header (-1, false);
 
 	list < problem > p_list;
 	database_.get_all_problems (p_list);
@@ -294,6 +297,11 @@ void generator::add_problem ()
 	cout << "<meta http-equiv=\"refresh\" content=\"0; url=/cgi-bin/mycgi?edit=" << index << "\" />\n";
 	cout << "</head>\n";
 	cout << "<body>\n";
+}
+
+void generator::delete_problem (int problem_id)
+{
+	database_.delete_problem (problem_id);
 }
 
 static void output_hold_div (hold_type type, int id, float xpos, float ypos, float radius)

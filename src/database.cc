@@ -409,8 +409,8 @@ bool database::add_problem (int &index)
 	strcpy (p.author_, "new author");
 	p.grade_ = VBm;
 
-	time_t current_time = time(NULL);
-	struct tm *local_time = localtime(&current_time);
+	time_t current_time = time (NULL);
+	struct tm *local_time = localtime (&current_time);
 	p.date_.year = local_time->tm_year + 1900;
 	p.date_.month = local_time->tm_mon + 1;
 	p.date_.day = local_time->tm_mday;
@@ -421,6 +421,13 @@ bool database::add_problem (int &index)
 	save_problem (index, p);
 
 	return true;
+}
+
+bool database::delete_problem (int id)
+{
+	string full_name = string (data_dir_) + to_string (id);
+
+	return (remove (full_name.c_str ()) == 0);
 }
 
 bool database::load_problems ()
