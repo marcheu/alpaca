@@ -17,6 +17,7 @@ using namespace cgicc;
 
 int main (int argc, char *argv[])
 {
+	bool action = false;
 	Cgicc formData;
 
 	generator g;
@@ -36,16 +37,19 @@ int main (int argc, char *argv[])
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("all")) {
 				g.generate_view_all_problems ();
+				action = true;
 			}
 			else {
 				int problem_id = atoi (std::string (**fi).c_str ());
 				g.generate_view_problem (problem_id);
+				action = true;
 			}
 		}
 		fi = formData.getElement ("edit");
 		if (!fi->isEmpty ()) {
 			if (!std::string (**fi).compare ("new")) {
 				g.add_problem ();
+				action = true;
 			}
 			else {
 				int problem_id = atoi (std::string (**fi).c_str ());
@@ -60,10 +64,16 @@ int main (int argc, char *argv[])
 					cout << "DID A GRADE EDIT " << std::string (**fi) << endl;
 				}
 				g.generate_edit_problem (problem_id);
+				action = true;
 			}
 		}
 
+		if (!action)
+			g.generate_main_redirect();
 		cout << "<br/>\n";
+
+
+#if 0
 		fi = formData.getElement ("sort");
 		if (!fi->isEmpty () && fi != (*formData).end ()) {
 			cout << "Sort: " << **fi << endl;
@@ -71,6 +81,7 @@ int main (int argc, char *argv[])
 		else {
 			//cout << "No text entered for sort" << endl;
 		}
+#endif
 	}
 
 	cout << "</body>\n";

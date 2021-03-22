@@ -21,6 +21,7 @@ typedef enum problem_grade {
 	V6,
 	V7,
 	V8,
+	V8p,
 	V9,
 	V10,
 	V11,

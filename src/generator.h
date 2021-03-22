@@ -14,6 +14,7 @@ class generator {
 	void edit_problem_hold (int problem_id, string change);
 	void edit_problem_grade (int problem_id, string grade);
 	void generate_view_all_problems ();
+	void generate_main_redirect ();
 	void add_problem ();
       private:
 
