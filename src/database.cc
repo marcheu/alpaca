@@ -408,9 +408,13 @@ bool database::add_problem (int &index)
 	strcpy (p.name_, "new problem");
 	strcpy (p.author_, "new author");
 	p.grade_ = VBm;
-	p.date_.year = 2020;
-	p.date_.month = 10;
-	p.date_.day = 5;
+
+	time_t current_time = time(NULL);
+	struct tm *local_time = localtime(&current_time);
+	p.date_.year = local_time->tm_year + 1900;
+	p.date_.month = local_time->tm_mon + 1;
+	p.date_.day = local_time->tm_mday;
+
 	for (unsigned i = 0; i < ARRAY_SIZE (p.holds_); i++)
 		p.holds_[i] = hold_unused;
 
