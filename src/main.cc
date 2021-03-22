@@ -54,15 +54,13 @@ int main (int argc, char *argv[])
 			else {
 				int problem_id = atoi (std::string (**fi).c_str ());
 				form_iterator fi = formData.getElement ("edit_hold");
-				if (!fi->isEmpty ()) {
+				if (!fi->isEmpty ())
 					g.edit_problem_hold (problem_id, std::string (**fi));
-					cout << "DID A HOLD EDIT " << std::string (**fi) << endl;
-				}
+
 				fi = formData.getElement ("edit_grade");
-				if (!fi->isEmpty ()) {
+				if (!fi->isEmpty ())
 					g.edit_problem_grade (problem_id, std::string (**fi));
-					cout << "DID A GRADE EDIT " << std::string (**fi) << endl;
-				}
+
 				g.generate_edit_problem (problem_id);
 				action = true;
 			}
@@ -71,7 +69,6 @@ int main (int argc, char *argv[])
 		if (!action)
 			g.generate_main_redirect();
 		cout << "<br/>\n";
-
 
 #if 0
 		fi = formData.getElement ("sort");
