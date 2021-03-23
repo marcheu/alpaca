@@ -519,6 +519,8 @@ bool database::get_problem (int problem_id, problem & p)
 
 static bool compare (const problem & p1, const problem & p2)
 {
+	if (p1.grade_ == p2.grade_)
+		return strcmp (p1.name_, p2.name_) < 0;
 	return p1.grade_ < p2.grade_;
 }
 
