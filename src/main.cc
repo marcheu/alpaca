@@ -65,6 +65,11 @@ int main (int argc, char *argv[])
 				action = true;
 			}
 		}
+		fi = formData.getElement ("stats");
+		if (!fi->isEmpty ()) {
+			g.generate_stats ();
+			action = true;
+		}
 
 		fi = formData.getElement ("delete");
 		if (!fi->isEmpty ()) {

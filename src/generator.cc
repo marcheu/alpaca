@@ -38,20 +38,62 @@ generator::generator ()
 	cout.precision (3);
 }
 
-void generator::generate_header (int problem_id, bool delete_icon)
+void generator::generate_header (int problem_id, bool delete_icon, bool list_icon)
 {
 	cout << "<div class='page_header'><b> Alpaca </b>";
-	if (problem_id == -1) {
-	}
-	else {
-		cout << "<a href='/cgi-bin/mycgi?edit=" << problem_id << "'><img src='/icon-edit.png' width=10\%></a>  <a href='/cgi-bin/mycgi?view=all'><img src='/icon-list.png' width=10\%></a>";
-	}
-
+	if (problem_id != -1)
+		cout << "<a href='/cgi-bin/mycgi?edit=" << problem_id << "'><img src='/icon-edit.png' width=10\%></a> ";
+	if (list_icon)
+		cout << "<a href='/cgi-bin/mycgi?view=all'><img src='/icon-list.png' width=10\%></a>";
 	if (delete_icon)
 		cout << "<a href='/cgi-bin/mycgi?delete=" << problem_id << "'><img src='/icon-delete.png' width=10\%></a> ";
 	cout << "<a href='/cgi-bin/mycgi?edit=new'><img src='/icon-new.png' width=10\%></a>";
 
-	cout << "<img src='/icon-stats.png' width=10\%>  <img src='/icon-light.png' width=10\%></div>" << endl;
+	cout << "<a href='/cgi-bin/mycgi?stats=true'><img src='/icon-stats.png' width=10\%></a>  <img src='/icon-light.png' width=10\%></div>" << endl;
+}
+
+void generator::generate_stats ()
+{
+	list < hold > h_list;
+	database_.get_all_holds (h_list);
+
+	cout << "<head>\n";
+	cout << "<title>Alpaca Climbing 🦙</title>\n";
+	output_css_heatmap ();
+	cout << "</head>\n";
+	generate_header (-1, false, true);
+
+	cout << "<div class=\"big_problem_box " << grade_div_name (V0) << "\">";
+	cout << "Unused holds:<br>";
+	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
+
+	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
+		int id = (*it).id;
+
+		cout << "<div class=\"hold_hand_" << id << "\" > </div>";
+	}
+
+	cout << "</div>";
+	cout << "<br>";
+
+	list < problem > p_list;
+	database_.get_all_problems (p_list);
+
+	cout << "<table>";
+	cout << "<tr><th>Grade</th><th>Count</th></tr>";
+	for (int g = VBm; g < VLAST; g++) {
+		cout << "<tr>";
+		cout << "<td>" << grade_name ((problem_grade) g) << "</td>";
+		int count = 0;
+		for (auto pb = p_list.begin (); pb != p_list.end (); ++pb)
+			count += ((*pb).grade_ == g) ? 1 : 0;
+		cout << "<td><b>" << count << "</b></td>";
+		cout << "</tr>";
+	}
+	cout << "</table>";
+
+	cout << "</div>";
+
 }
 
 void generator::generate_view_problem (int problem_id)
@@ -63,7 +105,7 @@ void generator::generate_view_problem (int problem_id)
 	database_.get_all_holds (h_list);
 
 	output_head (&p);
-	generate_header (problem_id, false);
+	generate_header (problem_id, false, true);
 
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -108,7 +150,7 @@ void generator::generate_edit_problem (int problem_id)
 	database_.get_all_holds (h_list);
 
 	output_head (&p);
-	generate_header (problem_id, true);
+	generate_header (problem_id, true, true);
 
 	cout << "<div class=\"big_problem_box " << grade_div_name (p.grade_) << "\">";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -230,7 +272,7 @@ void generator::edit_problem_grade (int problem_id, string change)
 void generator::generate_view_all_problems ()
 {
 	output_head (NULL);
-	generate_header (-1, false);
+	generate_header (-1, false, false);
 
 	list < problem > p_list;
 	database_.get_all_problems (p_list);
@@ -390,6 +432,37 @@ void generator::output_css (problem * p)
 					output_hold_div ((hold_type) h, (*it).id, (*it).xpos, (*it).ypos, (*it).radius);
 			}
 		}
+		i++;
+	}
+
+	cout << "</style>";
+
+}
+
+void generator::output_css_heatmap ()
+{
+	string output;
+	ifstream style_file ("/home/pi/alpaca/html/style.txt");
+
+	cout << "<style>";
+	if (style_file.is_open ())
+		cout << style_file.rdbuf ();
+
+	list < hold > h_list;
+	database_.get_all_holds (h_list);
+
+	list < problem > p_list;
+	database_.get_all_problems (p_list);
+
+	int i = 0;
+	for (auto it = h_list.begin (); it != h_list.end (); ++it) {
+		int count = 0;
+		for (auto pb = p_list.begin (); pb != p_list.end (); ++pb)
+			count += ((*pb).holds_[i] == hold_unused) ? 0 : 1;
+
+		if (count == 0)
+			output_hold_div (hold_hand, (*it).id, (*it).xpos, (*it).ypos, (*it).radius);
+
 		i++;
 	}
 

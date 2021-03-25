@@ -32,7 +32,7 @@ a:visited {
 }
 
 .page_header {
-	background: #c0c0c0;
+	background: #e3dbbe;
 	border-radius: 10px;
 	width: 99%;
 	margin-left: 0.5%;
