@@ -74,7 +74,7 @@ void generator::generate_stats ()
 	}
 
 	cout << "</div>";
-	cout << "<br>";
+	cout << "<br><br>";
 
 	list < problem > p_list;
 	database_.get_all_problems (p_list);
@@ -90,8 +90,18 @@ void generator::generate_stats ()
 		cout << "<td><b>" << count << "</b></td>";
 		cout << "</tr>";
 	}
-	cout << "</table>";
+	cout << "</table><br>";
 
+
+	unordered_map < string, int >counts;
+	for (auto pb = p_list.begin (); pb != p_list.end (); ++pb)
+		counts[string ((*pb).author_)]++;
+
+	cout << "<table>";
+	cout << "<tr><th>Author</th><th>Count</th></tr>";
+	for (auto author = counts.begin (); author != counts.end (); ++author)
+		cout << "<tr>" << "<td>" << (*author).first << "</td> <td><b>" << (*author).second << "</b></td></tr>" << endl;
+	cout << "</table><br>";
 	cout << "</div>";
 
 }
