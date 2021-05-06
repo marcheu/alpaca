@@ -42,11 +42,21 @@ enum hold_type {
 	hold_foot
 };
 
+typedef enum problem_rating {
+	rating_0_star,
+	rating_1_star,
+	rating_2_star,
+	rating_3_star,
+	rating_4_star,
+	rating_last
+} problem_rating;
+
 struct problem {
 	int id_;
 	char name_[128];
 	char author_[128];
 	problem_grade grade_;
+	problem_rating rating_;
 	date date_;
 	hold_type holds_[256];
 };

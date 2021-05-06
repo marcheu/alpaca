@@ -19,6 +19,7 @@ class database {
 	bool get_all_holds (list < hold > &h_list);
 	bool edit_problem_hold (int problem_id, int hold_id, hold_type type);
 	bool edit_problem_grade (int problem_id, problem_grade grade);
+	bool edit_problem_rating (int problem_id, problem_rating rating);
 	bool add_problem (int &id);
 	bool delete_problem (int id);
 

@@ -369,6 +369,8 @@ bool database::load_problem (const char *name, problem & p)
 	getline (problem_file, line);
 	p.grade_ = (problem_grade) stoi (line);
 	getline (problem_file, line);
+	p.rating_ = (problem_rating) stoi (line);
+	getline (problem_file, line);
 	sscanf (line.c_str (), "%d %d %d", &p.date_.year, &p.date_.month, &p.date_.day);
 
 	unsigned i, num_holds;
@@ -408,6 +410,7 @@ bool database::add_problem (int &index)
 	strcpy (p.name_, "new problem");
 	strcpy (p.author_, "new author");
 	p.grade_ = VBm;
+	p.rating_ = rating_0_star;
 
 	time_t current_time = time (NULL);
 	struct tm *local_time = localtime (&current_time);
@@ -460,6 +463,7 @@ bool database::save_problem (int problem_id, problem & p)
 	problem_file << p.name_ << endl;
 	problem_file << p.author_ << endl;
 	problem_file << p.grade_ << endl;
+	problem_file << p.rating_ << endl;
 	problem_file << p.date_.year << " " << p.date_.month << " " << p.date_.day << endl;
 
 	unsigned i;
@@ -499,6 +503,18 @@ bool database::edit_problem_grade (int problem_id, problem_grade grade)
 	for (auto it = problems_.begin (); it != problems_.end (); ++it)
 		if ((*it).id_ == problem_id)
 			(*it).grade_ = grade;
+
+	problem p;
+	get_problem (problem_id, p);
+	save_problem (problem_id, p);
+	return true;
+}
+
+bool database::edit_problem_rating (int problem_id, problem_rating rating)
+{
+	for (auto it = problems_.begin (); it != problems_.end (); ++it)
+		if ((*it).id_ == problem_id)
+			(*it).rating_ = rating;
 
 	problem p;
 	get_problem (problem_id, p);

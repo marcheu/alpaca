@@ -13,6 +13,7 @@ class generator {
 	void generate_edit_problem (int problem_id);
 	void edit_problem_hold (int problem_id, string change);
 	void edit_problem_grade (int problem_id, string grade);
+	void edit_problem_rating (int problem_id, string rating);
 	void generate_view_all_problems ();
 	void generate_main_redirect ();
 	void generate_stats ();

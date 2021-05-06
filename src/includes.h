@@ -11,7 +11,7 @@
 #include <time.h>
 #include <fstream>
 #include <iostream>
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 #include <dirent.h>
@@ -20,5 +20,6 @@
 #include <values.h>
 
 #define ARRAY_SIZE(AA) (sizeof(AA)/sizeof(AA[0]))
+float frand();
 
 #endif

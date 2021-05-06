@@ -61,6 +61,10 @@ int main (int argc, char *argv[])
 				if (!fi->isEmpty ())
 					g.edit_problem_grade (problem_id, std::string (**fi));
 
+				fi = formData.getElement ("edit_rating");
+				if (!fi->isEmpty ())
+					g.edit_problem_rating (problem_id, std::string (**fi));
+
 				g.generate_edit_problem (problem_id);
 				action = true;
 			}

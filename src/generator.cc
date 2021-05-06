@@ -33,6 +33,20 @@ static const char *grade_div_name (problem_grade g)
 	return grades[g];
 }
 
+static const char *rating_name (problem_rating r)
+{
+	const char *ratings[5] = {
+		"----",
+		"🦙---",
+		"🦙🦙--",
+		"🦙🦙🦙-",
+		"🦙🦙🦙🦙"
+	};
+	assert (r >= 0);
+	assert (r < rating_last);
+	return ratings[r];
+}
+
 generator::generator ()
 {
 	cout.precision (3);
@@ -63,6 +77,7 @@ void generator::generate_stats ()
 	cout << "</head>\n";
 	generate_header (-1, false, true);
 
+	// Unused holds
 	cout << "<div class=\"big_problem_box " << grade_div_name (V0) << "\">";
 	cout << "Unused holds:<br>";
 	cout << "<div class=\"big_problem_box_image\"><img src=\"/template.jpg\" width=100\% height=100\%>";
@@ -79,6 +94,7 @@ void generator::generate_stats ()
 	list < problem > p_list;
 	database_.get_all_problems (p_list);
 
+	// Grades
 	cout << "<table>";
 	cout << "<tr><th>Grade</th><th>Count</th></tr>";
 	for (int g = VBm; g < VLAST; g++) {
@@ -92,8 +108,8 @@ void generator::generate_stats ()
 	}
 	cout << "</table><br>";
 
-
-	unordered_map < string, int >counts;
+	// Authors
+	map < string, int >counts;
 	for (auto pb = p_list.begin (); pb != p_list.end (); ++pb)
 		counts[string ((*pb).author_)]++;
 
@@ -143,9 +159,11 @@ void generator::generate_view_problem (int problem_id)
 	cout << "<div class='title_box' contentEditable='true'><b>" << p.name_ << "</b></div>" << endl;
 	cout << "<div class='big_problem_box_text'>";
 
-	cout << "<b>" << grade_name ((p.grade_)) << "</b><br>" << endl;
+	cout << "Grade: <b>" << grade_name ((p.grade_)) << "</b><br>" << endl;
+	
+	cout << "Rating: " << rating_name(p.rating_) << "<br>" << endl;
 
-	cout << "author: " << p.author_;
+	cout << "Author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
@@ -232,7 +250,17 @@ void generator::generate_edit_problem (int problem_id)
 	cout << "</select>" << endl;
 	cout << "</form>" << endl;
 
-	cout << "author: " << p.author_;
+	cout << "<form method=\"POST\" action=\"/cgi-bin/mycgi?edit=" << problem_id << "\">";
+	cout << "<select id=\"rating\" name=\"edit_rating\" onchange='if(this.value != 0) { this.form.submit(); }'>" << endl;
+	for (unsigned i = 0; i < 5; i++)
+		if (i == p.rating_)
+			cout << "<option value=\"" << rating_name ((problem_rating) i) << "\" selected=\"selected\">" << rating_name ((problem_rating) i) << "</option>" << endl;
+		else
+			cout << "<option value=\"" << rating_name ((problem_rating) i) << "\">" << rating_name ((problem_rating) i) << "</option>" << endl;
+	cout << "</select>" << endl;
+	cout << "</form>" << endl;
+
+	cout << "Author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
 	cout << "</div>";
 	cout << "</div>";
@@ -279,6 +307,17 @@ void generator::edit_problem_grade (int problem_id, string change)
 		database_.edit_problem_grade (problem_id, (problem_grade) i);
 }
 
+void generator::edit_problem_rating (int problem_id, string change)
+{
+	int i;
+	for (i = 0; i < rating_last; i++)
+		if (!strcmp (rating_name ((problem_rating) i), change.c_str ()))
+			break;
+
+	if (i != rating_last)
+		database_.edit_problem_rating (problem_id, (problem_rating) i);
+}
+
 void generator::generate_view_all_problems ()
 {
 	output_head (NULL);
@@ -311,8 +350,9 @@ void generator::generate_view_all_problems ()
 		cout << "</div>";
 		cout << "<div class=\"title_box\"><b>" << (*it).name_ << "</b></div>" << endl;
 		cout << "<div class=\"small_problem_box_text\">";
-		cout << "<b>" << grade_name ((*it).grade_) << "</b> ";
-		cout << "<br>author: " << (*it).author_;
+		cout << "Grade: <b>" << grade_name ((*it).grade_) << "</b><br>";
+		cout << "Rating: " << rating_name ((*it).rating_) << "<br>";
+		cout << "Author: " << (*it).author_;
 		cout << "  " << (*it).date_.year << "/" << (*it).date_.month << "/" << (*it).date_.day;
 		cout << "</div>";
 		cout << "</div>";
