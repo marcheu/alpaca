@@ -64,7 +64,7 @@ void generator::generate_header (int problem_id, bool delete_icon, bool list_ico
 		cout << "<a href='/cgi-bin/mycgi?delete=" << problem_id << "'><img src='/icon-delete.png' width=10\%></a> ";
 	cout << "<a href='/cgi-bin/mycgi?edit=new'><img src='/icon-new.png' width=10\%></a>";
 
-	cout << "<a href='/cgi-bin/mycgi?stats=true'><img src='/icon-stats.png' width=10\%></a>  <img src='/icon-light.png' width=10\%></div>" << endl;
+	cout << "<a href='/cgi-bin/mycgi?stats=true'><img src='/icon-stats.png' width=10\%></a> </div>" << endl;
 }
 
 void generator::generate_stats ()
