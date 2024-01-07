@@ -21,7 +21,7 @@ clean:
 	@rm -f nohup.out core gmon.out *.o *~ $(APPNAME)
 	@echo Done.
 
-classe:
+indent:
 	@indent -lc0 -sc -ss -ts8 -d0 -br -brs -lp -i8 -bli0 -npsl -l1000 src/*.cc src/*.h
-	@echo Classe.
+	@echo Indented.
 
