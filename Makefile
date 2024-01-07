@@ -3,7 +3,7 @@ SOURCES = $(shell find . -type f -name '*.cc' |xargs)
 HEADERS = $(shell find . -type f -name '*.h' |xargs)
 
 CXX = g++
-OPT = -O0 $(INCLUDES) -Wall -Wsign-compare -Wpointer-arith -Wcast-qual -Wcast-align
+OPT = -O2 $(INCLUDES) -Wall -Wsign-compare -Wpointer-arith -Wcast-qual -Wcast-align
 
 LIB = -lm -lcgicc
 

@@ -1,7 +1,7 @@
 #include "src/database.h"
 #include "src/includes.h"
 
-static constexpr char *data_dir_ = "/home/pi/alpaca/data/";
+static const string data_dir_ = base_dir + "data/";
 
 database::database ()
 {
@@ -15,7 +15,7 @@ class file_iterator {
 		d = NULL;
 	} bool run (char *filename) {
 		if (!d) {
-			d = opendir (data_dir_);
+			d = opendir (data_dir_.c_str ());
 			assert (d);
 		}
 
@@ -356,7 +356,7 @@ bool database::load_holds ()
 bool database::load_problem (const char *name, problem & p)
 {
 	ifstream problem_file;
-	string full_name = string (data_dir_) + string (name);
+	string full_name = data_dir_ + string (name);
 	problem_file.open (full_name);
 	string line;
 

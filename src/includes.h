@@ -20,6 +20,6 @@
 #include <values.h>
 
 #define ARRAY_SIZE(AA) (sizeof(AA)/sizeof(AA[0]))
-float frand();
+float frand ();
 
 #endif

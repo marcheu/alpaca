@@ -9,6 +9,8 @@
 
 using namespace std;
 
+static const string base_dir = string ("/home/marcheu/alpaca/");
+
 
 class database {
       public:

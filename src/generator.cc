@@ -1,3 +1,4 @@
+#include "src/database.h"
 #include "src/generator.h"
 #include "src/includes.h"
 
@@ -160,8 +161,8 @@ void generator::generate_view_problem (int problem_id)
 	cout << "<div class='big_problem_box_text'>";
 
 	cout << "Grade: <b>" << grade_name ((p.grade_)) << "</b><br>" << endl;
-	
-	cout << "Rating: " << rating_name(p.rating_) << "<br>" << endl;
+
+	cout << "Rating: " << rating_name (p.rating_) << "<br>" << endl;
 
 	cout << "Author: " << p.author_;
 	cout << "  " << p.date_.year << "/" << p.date_.month << "/" << p.date_.day;
@@ -459,7 +460,7 @@ static void output_hold_div (hold_type type, int id, float xpos, float ypos, flo
 void generator::output_css (problem * p)
 {
 	string output;
-	ifstream style_file ("/home/pi/alpaca/html/style.txt");
+	ifstream style_file (base_dir + string ("html/style.txt"));
 
 	cout << "<style>";
 	if (style_file.is_open ())
@@ -492,7 +493,7 @@ void generator::output_css (problem * p)
 void generator::output_css_heatmap ()
 {
 	string output;
-	ifstream style_file ("/home/pi/alpaca/html/style.txt");
+	ifstream style_file (base_dir + "html/style.txt");
 
 	cout << "<style>";
 	if (style_file.is_open ())
